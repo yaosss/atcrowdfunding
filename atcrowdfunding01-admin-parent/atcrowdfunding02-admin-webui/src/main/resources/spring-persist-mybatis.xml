@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--加载外部属性文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" init-method="init">
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+    </bean>
+    <!--配置SqlSessionFactoryBean整合MyBatis-->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--指定mybatis全局配置文件位置-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--指定mapper配置文件位置-->
+        <property name="mapperLocations" value="classpath:com/luyao/crowd/mapper/*Mapper.xml"/>
+        <!--装配数据源：引用前面的dataSource数据源-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--配置mybatis的扫描器，扫描mapper接口所在的包，创建dao对象-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.luyao.crowd.mapper"/>
+    </bean>
+    <!--配置事务管理器   -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!--        配置数据源-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!-- 配置事务的注解驱动，开启基于注解的声明式事务功能 -->
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 配置对 Service 所在包的自动扫描 -->
+    <context:component-scan base-package="com.luyao.crowd.service"/>
+</beans>

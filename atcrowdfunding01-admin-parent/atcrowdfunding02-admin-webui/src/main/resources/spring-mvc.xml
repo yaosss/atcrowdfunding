@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 自动扫描contrller包 -->
+    <context:component-scan base-package="com.luyao.crowd.controller"/>
+    <!-- 配置Thymeleaf视图解析器 -->
+    <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="order" value="1"/>
+        <property name="characterEncoding" value="UTF-8"/>
+        <property name="templateEngine">
+            <bean class="org.thymeleaf.spring5.SpringTemplateEngine">
+                <property name="templateResolver">
+                    <bean class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+                        <!-- 视图前缀 -->
+                        <property name="prefix" value="/WEB-INF/templates/"/>
+                        <!-- 视图后缀 -->
+                        <property name="suffix" value=".html"/>
+                        <property name="templateMode" value="HTML5"/>
+                        <property name="characterEncoding" value="UTF-8" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <!--配置springmvc注解驱动-->
+    <mvc:annotation-driven/>
+    <!--
+   处理静态资源，例如html、js、css、jpg
+  若只设置该标签，则只能访问静态资源，其他请求则无法访问
+  此时必须设置<mvc:annotation-driven/>解决问题
+ -->
+    <mvc:default-servlet-handler/>
+    <!-- 配置 view-controller  访问首页-->
+    <mvc:view-controller path="/" view-name="index" />
+    <mvc:view-controller path="/mian" view-name="main"></mvc:view-controller>
+    <!--配置基于xml的异常映射-->
+    <bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <!-- 配置异常类型和具体视图页面对应关系 -->
+        <property name="exceptionMappings">
+            <props>
+                <!-- key属性指定异常全类名，标签体中指定对应的视图(前后缀拼接) -->
+                <prop key="java.lang.Exception">system-error</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>
