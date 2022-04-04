@@ -1,7 +1,9 @@
 package com.luyao.crowd;
 
 import com.luyao.crowd.mapper.AdminMapper;
+import com.luyao.crowd.mapper.RoleMapper;
 import com.luyao.crowd.pojo.Admin;
+import com.luyao.crowd.pojo.Role;
 import com.luyao.crowd.service.api.AdminService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,5 +47,13 @@ public class test {
         Admin admin;
         admin = new Admin(null,"Rachel","123123","rui","rui@qq.com",null);
         adminService.saveAdmin(admin);
+    }
+    @Autowired
+    private RoleMapper roleMapper;
+    @Test
+    public void addRole(){
+        for (int i = 0; i < 25; i++) {
+            roleMapper.insertSelective(new Role(null,"role"+i));
+        }
     }
 }

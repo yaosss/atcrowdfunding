@@ -300,4 +300,13 @@
       create_time = #{createTime,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+<!--  void deleteOldRelationship(Integer adminId);-->
+  <delete id="deleteOldRelationship" parameterType="com.luyao.crowd.pojo.Admin">
+    delete from inner_admin_role where admin_id = #{adminId}
+  </delete>
+<!--  void insertNewRelationship(Integer adminId,List<Integer> roleIdList);-->
+  <insert id="insertNewRelationship" >
+    insert into inner_admin_role(admin_id, role_id) values
+    <foreach collection="roleIdList" item="roleId" separator=",">(#{adminId},#{roleId})</foreach>
+  </insert>
 </mapper>

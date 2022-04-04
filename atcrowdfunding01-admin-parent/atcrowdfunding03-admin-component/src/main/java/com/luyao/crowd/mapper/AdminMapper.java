@@ -94,4 +94,17 @@ public interface AdminMapper {
      * @mbg.generated Wed Mar 16 17:22:17 CST 2022
      */
     int updateByPrimaryKey(Admin record);
+
+    /**
+     * 删除原有的admin的角色
+     * @param adminId
+     */
+    void deleteOldRelationship(@Param("adminId") Integer adminId);
+
+    /**
+     * 保存新的关联关系
+     * @param adminId
+     * @param roleIdList
+     */
+    void insertNewRelationship(@Param("adminId") Integer adminId,@Param("roleIdList") List<Integer> roleIdList);
 }

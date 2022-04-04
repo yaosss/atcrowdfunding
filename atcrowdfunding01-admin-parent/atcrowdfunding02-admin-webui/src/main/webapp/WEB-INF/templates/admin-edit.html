@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:include="admin-commen :: commenheader">
+</head>
+
+<body>
+<div th:replace="admin-commen :: commentop"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="admin-commen :: commenleft"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <ol class="breadcrumb">
+                <li><a th:href="@{/admin/to/main/page}">首页</a></li>
+                <li><a th:href="@{/admin/get/page}">数据列表</a></li>
+                <li class="active">修改</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
+                <div class="panel-body">
+                    <form th:action="@{/admin/edit}" th:method="post" role="form">
+                        <p th:text="${exception}"></p>
+                        <input th:name="id" type="hidden" th:value="${admin.id}">
+                        <input th:name="pageNum" type="hidden" th:value="${pageNum}">
+                        <input th:name="keyword" type="hidden" th:value="${keyword}">
+                        <div class="form-group">
+                            <label for="exampleInputLogin">登录账号</label>
+                            <input th:name="Login" th:value="${admin.login}" type="text" class="form-control" id="exampleInputLogin" placeholder="请输入登陆账号">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuserName">用户昵称</label>
+                            <input th:name="userName" th:value="${admin.userName}" type="text" class="form-control" id="exampleInputuserName" placeholder="请输入用户名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail">邮箱地址</label>
+                            <input th:name="email" th:value="${admin.email}" type="email" class="form-control" id="exampleInputEmail" placeholder="请输入邮箱地址">
+                            <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
+                        </div>
+                        <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i> 提交</button>
+                        <button type="reset" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="admin-commen :: commenjs"></div>
+</body>
+</html>
